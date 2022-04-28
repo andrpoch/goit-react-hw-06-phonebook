@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import PropTypes from 'prop-types';
 import s from './ContactForm.module.css';
 import { useDispatch,useSelector } from 'react-redux'
 import { getContacts } from "redux/selectors";

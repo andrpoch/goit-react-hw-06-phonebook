@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from 'prop-types';
 import s from './FilterSearch.module.css';
 import { useDispatch,useSelector } from 'react-redux'
 import { getFilter } from 'redux/selectors';
