@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import PropTypes from 'prop-types';
 import s from './ContactForm.module.css';
+import { useDispatch,useSelector } from 'react-redux'
+import { getContacts } from "redux/selectors";
+import actions from 'redux/actions';
 
-function ContactForm({onSubmit}) {
+export default function ContactForm() {
    const [name, setName] = useState('');
    const [number, setNumber] = useState('');
+   const contacts = useSelector(getContacts);
+   const dispatch = useDispatch();
+   
    const handleChange = (e) => {
       const { name, value } = e.currentTarget;
       switch (name) {
@@ -20,10 +26,23 @@ function ContactForm({onSubmit}) {
    };
    const handleSubmit = (e) => {
       e.preventDefault();
-      onSubmit(name, number);
+      if (name === '') {
+         alert(`Please enter a contact name.`)
+         return;
+      }
+      if (number === '') {
+         alert(`Please enter the contact's phone number.`)
+         return;
+      }
+      if (contacts.find((contact)=>contact.name === name)) {
+         alert(`It's already there "${name}", Are you blind?`)
+         reset();
+         return;
+      }
+      dispatch(actions.addContact(name, number));
       reset();
    }
-   const reset = () => {
+  const reset = () => {
       setName('');
       setNumber('');
    };
@@ -61,9 +80,4 @@ function ContactForm({onSubmit}) {
          </form>
          
       );
-}
-ContactForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
 };
-
-export default ContactForm;
